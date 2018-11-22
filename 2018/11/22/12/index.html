@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Lu Ruan</title>
+  <title>LR(1)语法分析器的实现 | Lu Ruan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="A java coder">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lu Ruan">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="1965年，D.Knuth首先提出了LR(K)文法及LR(K)分析技术。所谓LR(K)分析，是指从左至右扫描和自底向上的语法分析，且在分析的每一步，只须根据分析栈当前已移进和归约出的全部文法符号，并至多再向前查看K个输入符号，就能确定相对于某一产生式左部符号的句柄是否已在分析栈的顶部形成，   从而也就可以确定当前所应采取的分析动作 (是移进还是按某一产生式进行归约等)。LR分析是当前最一般的分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LR(1)语法分析器的实现">
+<meta property="og:url" content="http://yoursite.com/2018/11/22/12/index.html">
 <meta property="og:site_name" content="Lu Ruan">
-<meta property="og:description" content="A java coder">
+<meta property="og:description" content="1965年，D.Knuth首先提出了LR(K)文法及LR(K)分析技术。所谓LR(K)分析，是指从左至右扫描和自底向上的语法分析，且在分析的每一步，只须根据分析栈当前已移进和归约出的全部文法符号，并至多再向前查看K个输入符号，就能确定相对于某一产生式左部符号的句柄是否已在分析栈的顶部形成，   从而也就可以确定当前所应采取的分析动作 (是移进还是按某一产生式进行归约等)。LR分析是当前最一般的分析">
 <meta property="og:locale" content="Chinese&English">
+<meta property="og:updated_time" content="2018-11-22T11:48:56.335Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lu Ruan">
-<meta name="twitter:description" content="A java coder">
+<meta name="twitter:title" content="LR(1)语法分析器的实现">
+<meta name="twitter:description" content="1965年，D.Knuth首先提出了LR(K)文法及LR(K)分析技术。所谓LR(K)分析，是指从左至右扫描和自底向上的语法分析，且在分析的每一步，只须根据分析栈当前已移进和归约出的全部文法符号，并至多再向前查看K个输入符号，就能确定相对于某一产生式左部符号的句柄是否已在分析栈的顶部形成，   从而也就可以确定当前所应采取的分析动作 (是移进还是按某一产生式进行归约等)。LR分析是当前最一般的分析">
   
     <link rel="alternative" href="/atom.xml" title="Lu Ruan" type="application/atom+xml">
   
@@ -161,283 +162,183 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-12" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      LR(1)语法分析器的实现
+    </h1>
+  
+
+        
+        <a href="/2018/11/22/12/" class="archive-article-date">
+  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1965年，D.Knuth首先提出了LR(K)文法及LR(K)分析技术。所谓LR(K)分析，是指从左至右扫描和自底向上的语法分析，且在分析的每一步，只须根据分析栈当前已移进和归约出的全部文法符号，并至多再向前查看K个输入符号，就能确定相对于某一产生式左部符号的句柄是否已在分析栈的顶部形成，  </p>
+<p>从而也就可以确定当前所应采取的分析动作 (是移进还是按某一产生式进行归约等)。<br>LR分析是当前最一般的分析方法。这是因为它对文法的限制最少，现今能用上下文无关文法描述的程序设计语言一般均可用LR方法进行有效的分析，而且在分析的效率上也不比诸如不带回溯的自顶向下分析、一般的“移进归约”以及算符优先等分析方法逊色。此外，LR分析器在工作过程中，还能准确及时地发现输入符号串的语法错误。凡此种种，就使LR分析方法在国际上受到了广泛的重视。<br>对于LR(K)文法的理论研究业已证明：① 每一LR(K)文法都是无二义性文法；② 一个由LR(K)文法所产生的语言也可由某一LR(1)文法产生。同时，由于通常的程序设计语言一般均能由LR(1)文法来产生。因此，对程序设计语言的编译来说，我们可仅考虑k≤1，即LR(0)和LR(1)的情况。<br>下面，我们首先介绍LR分析器的逻辑结构及工作原理，接着再依次介绍LR(0)，SLR(1)，LR(1)及LALR(1)等四种LR分析器的构造方法。其中，LR(0)分析器的分析能力最低，但它是构造其余三种LR分析器的基础。SLR是“简单LR”分析的缩写，它是为了解决构造LR(0)分析器所出现的问题而形成的一种方法，其分析能力自然要比LR(0)分析器稍强一些。<br>LR(1)分析器的分析能力是四种LR分析器中的最强者，但对规模较大的文法来说，在具体构造分析器时，由于所需的工作量及要求的存储空间都很庞大，将会遇到很大的困难。为此，采用所谓向前LR分析器即LALR(1)分析器将是一种恰当的选择。LALR(1)分析器的能力介于SLR(1)和LR(1)之间，但其分析表的规模比LR(1)分析表要小得多。至于工作量的问题，则可通过开发和使用LR分析器的自动生成工具来解决。目前十分流行的语法分析器自动生成工具YACC和OCCS正是为自动生成LALR(1)分析器而研制的。</p>
+<h1 id="编译原理"><a href="#编译原理" class="headerlink" title="编译原理"></a>编译原理</h1><hr>
+<h3 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br><span class="line">660</span><br><span class="line">661</span><br><span class="line">662</span><br><span class="line">663</span><br><span class="line">664</span><br><span class="line">665</span><br><span class="line">666</span><br><span class="line">667</span><br><span class="line">668</span><br><span class="line">669</span><br><span class="line">670</span><br><span class="line">671</span><br><span class="line">672</span><br><span class="line">673</span><br><span class="line">674</span><br><span class="line">675</span><br><span class="line">676</span><br><span class="line">677</span><br><span class="line">678</span><br><span class="line">679</span><br><span class="line">680</span><br><span class="line">681</span><br><span class="line">682</span><br><span class="line">683</span><br><span class="line">684</span><br><span class="line">685</span><br><span class="line">686</span><br><span class="line">687</span><br><span class="line">688</span><br><span class="line">689</span><br><span class="line">690</span><br><span class="line">691</span><br><span class="line">692</span><br><span class="line">693</span><br><span class="line">694</span><br><span class="line">695</span><br><span class="line">696</span><br><span class="line">697</span><br><span class="line">698</span><br><span class="line">699</span><br><span class="line">700</span><br><span class="line">701</span><br><span class="line">702</span><br><span class="line">703</span><br><span class="line">704</span><br><span class="line">705</span><br><span class="line">706</span><br><span class="line">707</span><br><span class="line">708</span><br><span class="line">709</span><br><span class="line">710</span><br><span class="line">711</span><br><span class="line">712</span><br><span class="line">713</span><br><span class="line">714</span><br><span class="line">715</span><br><span class="line">716</span><br><span class="line">717</span><br><span class="line">718</span><br><span class="line">719</span><br><span class="line">720</span><br><span class="line">721</span><br><span class="line">722</span><br><span class="line">723</span><br><span class="line">724</span><br><span class="line">725</span><br><span class="line">726</span><br><span class="line">727</span><br><span class="line">728</span><br><span class="line">729</span><br><span class="line">730</span><br><span class="line">731</span><br><span class="line">732</span><br><span class="line">733</span><br><span class="line">734</span><br><span class="line">735</span><br><span class="line">736</span><br><span class="line">737</span><br><span class="line">738</span><br><span class="line">739</span><br><span class="line">740</span><br><span class="line">741</span><br><span class="line">742</span><br><span class="line">743</span><br><span class="line">744</span><br><span class="line">745</span><br><span class="line">746</span><br><span class="line">747</span><br><span class="line">748</span><br><span class="line">749</span><br><span class="line">750</span><br><span class="line">751</span><br><span class="line">752</span><br><span class="line">753</span><br><span class="line">754</span><br><span class="line">755</span><br><span class="line">756</span><br><span class="line">757</span><br><span class="line">758</span><br><span class="line">759</span><br><span class="line">760</span><br><span class="line">761</span><br><span class="line">762</span><br><span class="line">763</span><br><span class="line">764</span><br><span class="line">765</span><br><span class="line">766</span><br><span class="line">767</span><br><span class="line">768</span><br><span class="line">769</span><br><span class="line">770</span><br><span class="line">771</span><br><span class="line">772</span><br><span class="line">773</span><br><span class="line">774</span><br><span class="line">775</span><br><span class="line">776</span><br><span class="line">777</span><br><span class="line">778</span><br><span class="line">779</span><br><span class="line">780</span><br><span class="line">781</span><br><span class="line">782</span><br><span class="line">783</span><br><span class="line">784</span><br><span class="line">785</span><br><span class="line">786</span><br><span class="line">787</span><br><span class="line">788</span><br><span class="line">789</span><br><span class="line">790</span><br><span class="line">791</span><br><span class="line">792</span><br><span class="line">793</span><br><span class="line">794</span><br><span class="line">795</span><br><span class="line">796</span><br><span class="line">797</span><br><span class="line">798</span><br><span class="line">799</span><br><span class="line">800</span><br><span class="line">801</span><br><span class="line">802</span><br><span class="line">803</span><br><span class="line">804</span><br><span class="line">805</span><br><span class="line">806</span><br><span class="line">807</span><br><span class="line">808</span><br><span class="line">809</span><br><span class="line">810</span><br><span class="line">811</span><br><span class="line">812</span><br><span class="line">813</span><br><span class="line">814</span><br><span class="line">815</span><br><span class="line">816</span><br><span class="line">817</span><br><span class="line">818</span><br><span class="line">819</span><br><span class="line">820</span><br><span class="line">821</span><br><span class="line">822</span><br><span class="line">823</span><br><span class="line">824</span><br><span class="line">825</span><br><span class="line">826</span><br><span class="line">827</span><br><span class="line">828</span><br><span class="line">829</span><br><span class="line">830</span><br><span class="line">831</span><br><span class="line">832</span><br><span class="line">833</span><br><span class="line">834</span><br><span class="line">835</span><br><span class="line">836</span><br><span class="line">837</span><br><span class="line">838</span><br><span class="line">839</span><br><span class="line">840</span><br><span class="line">841</span><br><span class="line">842</span><br><span class="line">843</span><br><span class="line">844</span><br><span class="line">845</span><br><span class="line">846</span><br><span class="line">847</span><br><span class="line">848</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#include&lt;iostream&gt; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include&lt;string&gt; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include&lt;map&gt; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include&lt;vector&gt; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include&lt;stack&gt; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include&lt;set&gt; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include&lt;cstring&gt; </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#include&lt;queue&gt; </span></span><br><span class="line"></span><br><span class="line">using namespace std;  </span><br><span class="line"></span><br><span class="line">map&lt;char,int&gt;getnum;  </span><br><span class="line"></span><br><span class="line">char getchar\[100\];          //获得对应字符  </span><br><span class="line"></span><br><span class="line">vector&lt;string&gt;proce;        //产生式  </span><br><span class="line"></span><br><span class="line">int table\[30\]\[30\];         //预测分析表 -1  </span><br><span class="line"></span><br><span class="line">int tb\_s\_r\[30\]\[30\];        //是移进项还是规约项,-1,-2.  </span><br><span class="line"></span><br><span class="line">int num=0;int numvt=0;   //numvt是终结符集合，0是‘<span class="comment">#’，numvt表空字 </span></span><br><span class="line"></span><br><span class="line">void readin()                        //读入vt,vn,编号1-num,读入所有产生式  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    memset(table,-1,sizeof(table));  </span><br><span class="line"></span><br><span class="line">    getnum\[<span class="string">'#'</span>\]=0;  </span><br><span class="line"></span><br><span class="line">    getchar\[0\]=<span class="string">'#'</span>;  </span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">"请输入终结符集："</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">    char x;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">do</span>  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">      cin&gt;&gt;x;  </span><br><span class="line"></span><br><span class="line">      getnum\[x\]=++num;  </span><br><span class="line"></span><br><span class="line">      getchar\[num\]=x;  </span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">while</span>(cin.peek()!=<span class="string">'\\n'</span>);  </span><br><span class="line"></span><br><span class="line">     numvt=++num;  </span><br><span class="line"></span><br><span class="line">     getnum\[<span class="string">'@'</span>\]=numvt;        //kong zi  </span><br><span class="line"></span><br><span class="line">     getchar\[num\]=(<span class="string">'@'</span>);  </span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">"请输入非终结符集："</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">do</span>  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">      cin&gt;&gt;x;  </span><br><span class="line"></span><br><span class="line">      getnum\[x\]=++num;  </span><br><span class="line"></span><br><span class="line">      getchar\[num\]=x;  </span><br><span class="line"></span><br><span class="line">    &#125;<span class="keyword">while</span>(cin.peek()!=<span class="string">'\\n'</span>);  </span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">"输入所有产生式（空字用‘@’表示）,以‘end’结束:"</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">    string pro;  </span><br><span class="line"></span><br><span class="line">     <span class="keyword">while</span>(cin&gt;&gt;pro&amp;&amp;pro!=<span class="string">"end"</span>)  </span><br><span class="line"></span><br><span class="line">     &#123;  </span><br><span class="line"></span><br><span class="line">         string ss;  </span><br><span class="line"></span><br><span class="line">         ss+=pro\[0\];  </span><br><span class="line"></span><br><span class="line">         <span class="keyword">for</span>(int i=3;i&lt;pro.size();i++)  </span><br><span class="line"></span><br><span class="line">         &#123;  </span><br><span class="line"></span><br><span class="line">             <span class="keyword">if</span>(pro\[i\]==<span class="string">'|'</span>)  </span><br><span class="line"></span><br><span class="line">             &#123;  </span><br><span class="line"></span><br><span class="line">                  proce.push_back(ss);  </span><br><span class="line"></span><br><span class="line">                  ss.clear();ss+=pro\[0\];  </span><br><span class="line"></span><br><span class="line">             &#125;  </span><br><span class="line"></span><br><span class="line">             <span class="keyword">else</span>  </span><br><span class="line"></span><br><span class="line">             &#123;  </span><br><span class="line"></span><br><span class="line">                 ss+=pro\[i\];  </span><br><span class="line"></span><br><span class="line">             &#125;  </span><br><span class="line"></span><br><span class="line">         &#125;  </span><br><span class="line"></span><br><span class="line">          proce.push_back(ss);  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">struct xiangmu         //一个项目  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    int nump;       //产生式编号  </span><br><span class="line"></span><br><span class="line">    int id;        //.的位置  </span><br><span class="line"></span><br><span class="line">    string fst;   //集合  </span><br><span class="line"></span><br><span class="line">&#125;;  </span><br><span class="line"></span><br><span class="line">string getp\[100\];   //获得某终结符在左边的产生式集合  </span><br><span class="line"></span><br><span class="line">void getpp()  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;proce.size();i++)  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        int temp=getnum\[proce\[i\]\[0\]\];  </span><br><span class="line"></span><br><span class="line">        getp\[temp\]+=char(<span class="string">'0'</span>+i);  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">string first\[100\];   //每个符号的first集  </span><br><span class="line"></span><br><span class="line">bool gotfirst\[100\]; //是否已经完成FIRST集合  </span><br><span class="line"></span><br><span class="line">void dfsgetfirst(int nv,int nump)  //当前的符号，和对应产生式编号  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">   int temp=getnum\[proce\[nump\]\[1\]\];  //产生式推出来的首符  </span><br><span class="line"></span><br><span class="line">    gotfirst\[nump\]=1;               //标记  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(temp&lt;=numvt)first\[nv\]+=char(<span class="string">'0'</span>+temp);  //是终结符  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(int i=0;i&lt;getp\[temp\].size();i++)    //所有temp可以推出来的符号对应的产生式  </span><br><span class="line"></span><br><span class="line">          &#123;  </span><br><span class="line"></span><br><span class="line">              <span class="keyword">if</span>(proce\[nump\]\[0\]==proce\[nump\]\[1\])<span class="built_in">continue</span>; //左递归的产生式不用不影响求fisrt集  </span><br><span class="line"></span><br><span class="line">              dfsgetfirst(temp,getp\[temp\]\[i\]-<span class="string">'0'</span>);  </span><br><span class="line"></span><br><span class="line">          &#125;  </span><br><span class="line"></span><br><span class="line">        first\[nv\]+=first\[temp\];                  //回溯时候沿途保存  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">void get_first()  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=1;i&lt;=numvt;i++)             //    终结符first集合是它自己.  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        first\[i\]=char(<span class="string">'0'</span>+i);  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span>(int i=0;i&lt;proce.size();i++)  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(proce\[i\]\[0\]==proce\[i\]\[1\])<span class="built_in">continue</span>; //左递归的产生式不用不影响求fisrt集  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(gotfirst\[i\])<span class="built_in">continue</span>;              //已经生成。  </span><br><span class="line"></span><br><span class="line">        int temp=getnum\[proce\[i\]\[0\]\];  </span><br><span class="line"></span><br><span class="line">          dfsgetfirst(temp,i);  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">vector&lt;vector&lt;xiangmu&gt; &gt;v;             //项目集族  </span><br><span class="line"></span><br><span class="line">int e\[100\]\[3\]; int head\[100\];int nume=0;    //链式前向星项目集族图  </span><br><span class="line"></span><br><span class="line">void addegde(int from,int to,int w)         //添加边  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    e\[nume\]\[0\]=to;e\[nume\]\[1\]=head\[from\];head\[from\]=nume;  </span><br><span class="line"></span><br><span class="line">    e\[nume++\]\[2\]=w;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">void clear()                 //初始化函数  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;100;i++)  </span><br><span class="line"></span><br><span class="line">       head\[i\]=-1;  </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span>(int i=0;i&lt;30;i++)  </span><br><span class="line"></span><br><span class="line">       <span class="keyword">for</span>(int j=0;j&lt;30;j++)  </span><br><span class="line"></span><br><span class="line">         tb\_s\_r\[i\]\[j\]=table\[i\]\[j\]=-1;  </span><br><span class="line"></span><br><span class="line">    nume=0;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">inline bool xmeq(xiangmu a,xiangmu b)  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(a.fst==b.fst&amp;&amp;a.id==b.id&amp;&amp;a.nump==b.nump)<span class="built_in">return</span> 1;  </span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> 0;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">bool isin(xiangmu a,vector&lt;xiangmu&gt; b)      //xm a is <span class="keyword">in</span> xmji b  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;b.size();i++)  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(xmeq(a,b\[i\]))<span class="built_in">return</span> 1;  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> 0;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">vector&lt;xiangmu&gt;  hebing(vector&lt;xiangmu&gt;a ,vector&lt;xiangmu&gt;b)  //合并项目集 a,b 复给 a  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;b.size();i++)  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(isin(b\[i\],a))<span class="built_in">continue</span>;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span>  </span><br><span class="line"></span><br><span class="line">         a.push_back(b\[i\]);  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> a;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">bool xmjieq(vector&lt;xiangmu&gt; a,vector&lt;xiangmu&gt; b)  //两个项目集是否相等  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(a.size()!=b.size())<span class="built_in">return</span> 0;  </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span>(int i=0;i&lt;a.size();i++)  </span><br><span class="line"></span><br><span class="line">     &#123;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!isin(a\[i\],b))<span class="built_in">return</span> 0;  </span><br><span class="line"></span><br><span class="line">     &#125;  </span><br><span class="line"></span><br><span class="line">     <span class="built_in">return</span> 1;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">int xmji\_isin\_xmjizu(vector&lt;xiangmu&gt;a,vector&lt;vector&lt;xiangmu&gt; &gt;b)  //查找项目集，若有，则返回编号,一举俩得  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;b.size();i++)  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(xmjieq(a,b\[i\]))<span class="built_in">return</span> i;  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> -1;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">vector&lt;xiangmu&gt; get_close(xiangmu t)           //对项目 T作闭包  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">   vector&lt;xiangmu&gt; temp;  </span><br><span class="line"></span><br><span class="line">   temp.push_back(t);  </span><br><span class="line"></span><br><span class="line">    queue&lt;xiangmu&gt; q;                         //bfs完成闭包  </span><br><span class="line"></span><br><span class="line">    q.push(t);  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!q.empty())  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">      xiangmu cur=q.front();  </span><br><span class="line"></span><br><span class="line">      q.pop();  </span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span>(cur.id==proce\[cur.nump\].size())          //归约项舍去  </span><br><span class="line"></span><br><span class="line">          <span class="built_in">continue</span>;  </span><br><span class="line"></span><br><span class="line">     int tt=getnum\[proce\[cur.nump\]\[cur.id\]\];       //tt is thm num of <span class="string">'.'</span>zhihoudefuhao  </span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span>(tt&lt;=numvt)   <span class="built_in">continue</span> ;                  //若是终结符，则不必找了  </span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span>(int i=0;i&lt;getp\[tt\].size();i++)         //对应产生式的编号  </span><br><span class="line"></span><br><span class="line">       &#123;  </span><br><span class="line"></span><br><span class="line">          xiangmu c;  </span><br><span class="line"></span><br><span class="line">         c.id=1;                               //  </span><br><span class="line"></span><br><span class="line">         c.nump=getp\[tt\]\[i\]-<span class="string">'0'</span>;             //  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(proce\[cur.nump\].size()-cur.id==1)   // the last : A-&gt;BC.D,a/b  </span><br><span class="line"></span><br><span class="line">          c.fst+=cur.fst;  </span><br><span class="line"></span><br><span class="line">         <span class="keyword">else</span>                           //not the last  ：A-&gt;B.CFb,a/b  </span><br><span class="line"></span><br><span class="line">        &#123;  </span><br><span class="line"></span><br><span class="line">          int tttnum=getnum\[proce\[cur.nump\]\[cur.id+1\]\];  </span><br><span class="line"></span><br><span class="line">          c.fst+=first\[tttnum\];  </span><br><span class="line"></span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span>(!isin(c,temp))           //排重，新的项目就加入。  </span><br><span class="line"></span><br><span class="line">         &#123;  </span><br><span class="line"></span><br><span class="line">             q.push(c);  </span><br><span class="line"></span><br><span class="line">             temp.push_back(c);  </span><br><span class="line"></span><br><span class="line">         &#125;  </span><br><span class="line"></span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">      &#125;  </span><br><span class="line"></span><br><span class="line">      <span class="built_in">return</span> temp;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">void get_xiangmujizu()             //获得项目集族  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    vector&lt;xiangmu&gt;temp;  </span><br><span class="line"></span><br><span class="line">    xiangmu t;  </span><br><span class="line"></span><br><span class="line">    t.nump=0;t.id=1;t.fst+=<span class="string">'0'</span>;    //初始的项目集：0  </span><br><span class="line"></span><br><span class="line">    temp=get_close(t);  </span><br><span class="line"></span><br><span class="line">    queue&lt;vector&lt;xiangmu&gt; &gt;q;        //bfs法获得  </span><br><span class="line"></span><br><span class="line">    q.push(temp);  </span><br><span class="line"></span><br><span class="line">    v.push_back(temp);             //第一个入  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!q.empty())  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">         vector&lt;xiangmu&gt; cur=q.front();  </span><br><span class="line"></span><br><span class="line">         q.pop();  </span><br><span class="line"></span><br><span class="line">         <span class="keyword">for</span>(int i=1;i&lt;=num;i++)     //所有符号  </span><br><span class="line"></span><br><span class="line">         &#123;  </span><br><span class="line"></span><br><span class="line">             <span class="keyword">if</span>(i==numvt)<span class="built_in">continue</span>;      //<span class="string">'#'</span>  </span><br><span class="line"></span><br><span class="line">             vector&lt;xiangmu&gt; temp;  </span><br><span class="line"></span><br><span class="line">              <span class="keyword">for</span>(int j=0;j&lt;cur.size();j++)     //该项目集中的所有项目  </span><br><span class="line"></span><br><span class="line">              &#123;  </span><br><span class="line"></span><br><span class="line">                 <span class="keyword">if</span>(cur\[j\].id==proce\[cur\[j\].nump\].size())<span class="built_in">continue</span>;  //是规约项目，无法再读入了  </span><br><span class="line"></span><br><span class="line">                 int tt=getnum\[proce\[cur\[j\].nump\]\[cur\[j\].id\]\];  </span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span>(tt==i)                                          //can <span class="built_in">read</span> <span class="keyword">in</span> 符号i  </span><br><span class="line"></span><br><span class="line">                &#123;  </span><br><span class="line"></span><br><span class="line">                    xiangmu tempt;  </span><br><span class="line"></span><br><span class="line">                    tempt.fst=cur\[j\].fst;  </span><br><span class="line"></span><br><span class="line">                    tempt.id=cur\[j\].id+1;  </span><br><span class="line"></span><br><span class="line">                    tempt.nump=cur\[j\].nump;  </span><br><span class="line"></span><br><span class="line">                    temp=hebing(temp,get_close(tempt));  </span><br><span class="line"></span><br><span class="line">                &#125;  </span><br><span class="line"></span><br><span class="line">              &#125;  </span><br><span class="line"></span><br><span class="line">              <span class="keyword">if</span>(temp.size()==0)<span class="built_in">continue</span>;             //该符号无法读入。  </span><br><span class="line"></span><br><span class="line">                int numcur=xmji\_isin\_xmjizu(cur,v);   //当前节点标号  </span><br><span class="line"></span><br><span class="line">                int tttnum=xmji\_isin\_xmjizu(temp,v);  //新目标标号  </span><br><span class="line"></span><br><span class="line">                   <span class="keyword">if</span>(tttnum==-1)                    //新的项目集  </span><br><span class="line"></span><br><span class="line">                   &#123;  </span><br><span class="line"></span><br><span class="line">                    v.push_back(temp);  </span><br><span class="line"></span><br><span class="line">                    q.push(temp);  </span><br><span class="line"></span><br><span class="line">                    addegde(numcur,v.size()-1,i) ;   //添加边，权为读入的符号  </span><br><span class="line"></span><br><span class="line">                  &#125;  </span><br><span class="line"></span><br><span class="line">                   <span class="keyword">else</span>                             //老的项目集  </span><br><span class="line"></span><br><span class="line">                   &#123;  </span><br><span class="line"></span><br><span class="line">                    addegde(numcur,tttnum,i);  </span><br><span class="line"></span><br><span class="line">                   &#125;  </span><br><span class="line"></span><br><span class="line">         &#125;  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">void print_xmjizu()              //打印项目集族  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;v.size();i++)  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        cout&lt;&lt;<span class="string">"项目集"</span>&lt;&lt;i&lt;&lt;<span class="string">":"</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span>(int j=0;j&lt;v\[i\].size();j++)  </span><br><span class="line"></span><br><span class="line">        &#123;  </span><br><span class="line"></span><br><span class="line">          cout&lt;&lt;proce\[v\[i\]\[j\].nump\]&lt;&lt;<span class="string">" "</span>&lt;&lt;v\[i\]\[j\].id&lt;&lt;<span class="string">" "</span>&lt;&lt;v\[i\]\[j\].fst&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">      cout&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;v.size();i++)  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(int j=head\[i\];j!=-1;j=e\[j\]\[1\])  </span><br><span class="line"></span><br><span class="line">        &#123;  </span><br><span class="line"></span><br><span class="line">            cout&lt;&lt;<span class="string">"  "</span>&lt;&lt;getchar\[e\[j\]\[2\]\]&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">            cout&lt;&lt;i&lt;&lt;<span class="string">"---&gt;"</span>&lt;&lt;e\[j\]\[0\]&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">bool get_table()            //获得分析表table\[i\]\[j\]=w:状态i--&gt;j,读入符号W。  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;v.size();i++)          //遍历图  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(int j=head\[i\];j!=-1;j=e\[j\]\[1\])  </span><br><span class="line"></span><br><span class="line">        &#123;  </span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(table\[i\]\[e\[j\]\[2\]\]!=-1)<span class="built_in">return</span> 0;           //多重入口，报错.  </span><br><span class="line"></span><br><span class="line">             table\[i\]\[e\[j\]\[2\]\]=e\[j\]\[0\];  </span><br><span class="line"></span><br><span class="line">            tb\_s\_r\[i\]\[e\[j\]\[2\]\]=-1;             //移近项-1。  </span><br><span class="line"></span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;v.size();i++)             //遍历所有项目  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">      <span class="keyword">for</span>(int j=0;j&lt;v\[i\].size();j++)  </span><br><span class="line"></span><br><span class="line">        &#123;  </span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(v\[i\]\[j\].id==proce\[v\[i\]\[j\].nump\].size())  //归约项  </span><br><span class="line"></span><br><span class="line">            &#123;  </span><br><span class="line"></span><br><span class="line">                <span class="keyword">for</span>(int k=0;k&lt;v\[i\]\[j\].fst.size();k++)  </span><br><span class="line"></span><br><span class="line">                   &#123;  </span><br><span class="line"></span><br><span class="line">                      <span class="keyword">if</span>(table\[i\]\[(v\[i\]\[j\].fst)\[k\]-<span class="string">'0'</span>\]!=-1)<span class="built_in">return</span> 0;           //多重入口，报错.  </span><br><span class="line"></span><br><span class="line">                     <span class="keyword">if</span>(  (v\[i\]\[j\].fst)\[k\]==<span class="string">'0'</span>&amp;&amp;v\[i\]\[j\].nump==0)  </span><br><span class="line"></span><br><span class="line">                        table\[i\]\[(v\[i\]\[j\].fst)\[k\]-<span class="string">'0'</span>\]=-3 ;           //接受态。  </span><br><span class="line"></span><br><span class="line">                     <span class="keyword">else</span>  </span><br><span class="line"></span><br><span class="line">                     &#123;  </span><br><span class="line"></span><br><span class="line">                        table\[i\]\[(v\[i\]\[j\].fst)\[k\]-<span class="string">'0'</span>\]=v\[i\]\[j\].nump;  </span><br><span class="line"></span><br><span class="line">                        tb\_s\_r\[i\]\[(v\[i\]\[j\].fst)\[k\]-<span class="string">'0'</span>\]=-2;            //归约态  </span><br><span class="line"></span><br><span class="line">                     &#125;  </span><br><span class="line"></span><br><span class="line">                   &#125;  </span><br><span class="line"></span><br><span class="line">            &#125;  </span><br><span class="line"></span><br><span class="line">         &#125;  </span><br><span class="line"></span><br><span class="line">     &#125;  </span><br><span class="line"></span><br><span class="line">     <span class="built_in">return</span> 1;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">void print_table()  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">"LR(1)分析表："</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">"状态   "</span>&lt;&lt;<span class="string">"         actoin     "</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span>(int j=0;j&lt;=num;j++)  </span><br><span class="line"></span><br><span class="line">        &#123;  </span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(j==numvt)<span class="built_in">continue</span>;  </span><br><span class="line"></span><br><span class="line">            cout&lt;&lt;<span class="string">"    "</span>&lt;&lt;getchar\[j\];  </span><br><span class="line"></span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">       cout&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=0;i&lt;v.size();i++)  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        cout&lt;&lt;i&lt;&lt;<span class="string">"   "</span>;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(int j=0;j&lt;=num;j++)  </span><br><span class="line"></span><br><span class="line">        &#123;  </span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(j==numvt)<span class="built_in">continue</span>;  </span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span>(table\[i\]\[j\]==-3)  cout&lt;&lt;<span class="string">"acc"</span>&lt;&lt;<span class="string">"  "</span>;       //接受  </span><br><span class="line"></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(table\[i\]\[j\]==-1)cout&lt;&lt;<span class="string">"     "</span>;        //空  </span><br><span class="line"></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(tb\_s\_r\[i\]\[j\]==-1)cout&lt;&lt;<span class="string">"s"</span>&lt;&lt;table\[i\]\[j\]&lt;&lt;<span class="string">"   "</span>;  //移近  </span><br><span class="line"></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(tb\_s\_r\[i\]\[j\]==-2)cout&lt;&lt;<span class="string">"r"</span>&lt;&lt;table\[i\]\[j\]&lt;&lt;<span class="string">"   "</span>;  //归约  </span><br><span class="line"></span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">        cout&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">string word;  </span><br><span class="line"></span><br><span class="line">void  <span class="built_in">print</span>\_now\_state(int count,stack&lt;int&gt;state,stack&lt;int&gt;wd,int i)  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;count&lt;&lt;<span class="string">'\\t'</span>&lt;&lt;<span class="string">'\\t'</span>;  </span><br><span class="line"></span><br><span class="line">    stack&lt;int&gt;temp;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!state.empty())  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        temp.push(state.top());  </span><br><span class="line"></span><br><span class="line">        state.pop();  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!temp.empty())  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        cout&lt;&lt;temp.top();  </span><br><span class="line"></span><br><span class="line">        temp.pop();  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">'\\t'</span>&lt;&lt;<span class="string">'\\t'</span>;  </span><br><span class="line"></span><br><span class="line">     <span class="keyword">while</span>(!wd.empty())  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        temp.push(wd.top());  </span><br><span class="line"></span><br><span class="line">        wd.pop();  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(!temp.empty())  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        cout&lt;&lt;getchar\[temp.top()\];  </span><br><span class="line"></span><br><span class="line">        temp.pop();  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">'\\t'</span>&lt;&lt;<span class="string">'\\t'</span>;  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int j=i;j&lt;word.size();j++)  </span><br><span class="line"></span><br><span class="line">        cout&lt;&lt;word\[j\];  </span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">'\\t'</span>&lt;&lt;<span class="string">'\\t'</span>;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">bool analyze()  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">"       "</span>&lt;&lt;word&lt;&lt;<span class="string">"的分析过程："</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;<span class="string">"步骤\\t\\t"</span>&lt;&lt;<span class="string">"状态栈\\t\\t"</span>&lt;&lt;<span class="string">"符号栈\\t\\t"</span>&lt;&lt;<span class="string">"输入串\\t\\t"</span>&lt;&lt;<span class="string">"动作说明"</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">      stack&lt;int&gt;state;   //俩个栈：状态栈和符号栈  </span><br><span class="line"></span><br><span class="line">      stack&lt;int&gt;wd;  </span><br><span class="line"></span><br><span class="line">      int count=0;  </span><br><span class="line"></span><br><span class="line">      state.push(0);     //初始化  </span><br><span class="line"></span><br><span class="line">      wd.push(0);        //<span class="string">'#'</span>  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(int i=0;;)       //i，读入文本的  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        int cur=state.top();  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(table\[cur\]\[getnum\[word\[i\]\]\]==-1)    // 空白，报错误  </span><br><span class="line"></span><br><span class="line">             <span class="built_in">return</span> 0;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(table\[cur\]\[getnum\[word\[i\]\]\]==-3)  //接受态  </span><br><span class="line"></span><br><span class="line">            &#123;  </span><br><span class="line"></span><br><span class="line">                <span class="built_in">print</span>\_now\_state(count++,state,wd,i);  </span><br><span class="line"></span><br><span class="line">                cout&lt;&lt;<span class="string">"      恭喜！acc!"</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">                <span class="built_in">return</span> 1;  </span><br><span class="line"></span><br><span class="line">            &#125;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(tb\_s\_r\[cur\]\[getnum\[word\[i\]\]\]==-1)       //移进项  </span><br><span class="line"></span><br><span class="line">        &#123;  </span><br><span class="line"></span><br><span class="line">            <span class="built_in">print</span>\_now\_state(count++,state,wd,i);  </span><br><span class="line"></span><br><span class="line">           int newstate=table\[cur\]\[getnum\[word\[i\]\]\];  </span><br><span class="line"></span><br><span class="line">            cout&lt;&lt;<span class="string">"action\["</span>&lt;&lt;cur&lt;&lt;<span class="string">","</span>&lt;&lt;getnum\[word\[i\]\]&lt;&lt;<span class="string">"\]="</span>&lt;&lt;newstate;  </span><br><span class="line"></span><br><span class="line">            cout&lt;&lt;<span class="string">"，状态"</span>&lt;&lt;newstate&lt;&lt;<span class="string">"入栈"</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">            wd.push(getnum\[word\[i\]\]);  </span><br><span class="line"></span><br><span class="line">            state.push(newstate);  </span><br><span class="line"></span><br><span class="line">            i++;  </span><br><span class="line"></span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(tb\_s\_r\[cur\]\[getnum\[word\[i\]\]\]==-2)         //归约  </span><br><span class="line"></span><br><span class="line">        &#123;  </span><br><span class="line"></span><br><span class="line">            <span class="built_in">print</span>\_now\_state(count++,state,wd,i);  </span><br><span class="line"></span><br><span class="line">             int numpro=table\[cur\]\[getnum\[word\[i\]\]\];   //用该产生式归约  </span><br><span class="line"></span><br><span class="line">            int len=proce\[numpro\].size()-1;  </span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span>(int ii=0;ii&lt;len;ii++)                 //弹栈  </span><br><span class="line"></span><br><span class="line">             &#123;  </span><br><span class="line"></span><br><span class="line">                 wd.pop();  </span><br><span class="line"></span><br><span class="line">                 state.pop();  </span><br><span class="line"></span><br><span class="line">             &#125;  </span><br><span class="line"></span><br><span class="line">             wd.push(getnum\[proce\[numpro\]\[0\]\]);    //新入  </span><br><span class="line"></span><br><span class="line">             int cur=state.top();  </span><br><span class="line"></span><br><span class="line">            cout&lt;&lt;<span class="string">"用"</span>&lt;&lt;proce\[numpro\]\[0\]&lt;&lt;<span class="string">"-&gt;"</span>;  </span><br><span class="line"></span><br><span class="line">             <span class="keyword">for</span>(int ii=1;ii&lt;=len;ii++)  </span><br><span class="line"></span><br><span class="line">                 cout&lt;&lt;proce\[numpro\]\[ii\];  </span><br><span class="line"></span><br><span class="line">            cout&lt;&lt;<span class="string">"进行归约,"</span>&lt;&lt;<span class="string">"goto\["</span>&lt;&lt;cur&lt;&lt;<span class="string">","</span>&lt;&lt;getnum\[word\[i\]\]&lt;&lt;<span class="string">"\]="</span>&lt;&lt;table\[cur\]\[getnum\[proce\[numpro\]\[0\]\]\];  </span><br><span class="line"></span><br><span class="line">            cout&lt;&lt;<span class="string">"入栈"</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">             state.push(table\[cur\]\[getnum\[proce\[numpro\]\[0\]\]\]);  </span><br><span class="line"></span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> 1;  </span><br><span class="line"></span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line">int main()  </span><br><span class="line"></span><br><span class="line">&#123;  </span><br><span class="line"></span><br><span class="line">    clear();  </span><br><span class="line"></span><br><span class="line">    readin();  </span><br><span class="line"></span><br><span class="line">    getpp();  </span><br><span class="line"></span><br><span class="line">    get_first();  </span><br><span class="line"></span><br><span class="line">    get_xiangmujizu();  </span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(!get_table())  </span><br><span class="line"></span><br><span class="line">    &#123;  </span><br><span class="line"></span><br><span class="line">        cout&lt;&lt;<span class="string">"此文法在生成分析表时候有多重入口，非LR(1)文法！"</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">        <span class="built_in">return</span> 0;  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">  // print_xmjizu();  </span><br><span class="line"></span><br><span class="line">   print_table();  </span><br><span class="line"></span><br><span class="line">   cout&lt;&lt;<span class="string">"请输入字："</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">   cin&gt;&gt;word;  </span><br><span class="line"></span><br><span class="line">   word+=<span class="string">'#'</span>;  </span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span>(!analyze())  </span><br><span class="line"></span><br><span class="line">       cout&lt;&lt;<span class="string">"error!"</span>&lt;&lt;endl;  </span><br><span class="line"></span><br><span class="line">   <span class="keyword">else</span>;  </span><br><span class="line"></span><br><span class="line">    <span class="built_in">return</span> 0;  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+
+
+
+
+
+
+
+
+  <div class="declare" hidden="hidden"></div>
+
+
+
+
+
+
+
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/10/" class="archive-article-date">
-  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/10/">Linux常用的命令--60个命令总结汇总</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/11/22/12/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/12/" class="archive-article-date">
-  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2018/11/22/10/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Linux常用的命令--60个命令总结汇总
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/11/22/13/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java最简单的算法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/12/">LR(1)语法分析器的实现</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/13/" class="archive-article-date">
-  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/13/">Java最简单的算法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/9/" class="archive-article-date">
-  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/9/">LL（1）语法分析器的实现</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/11/" class="archive-article-date">
-  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/11/">TSFH turn to Coldplay</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/8/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.062Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/8/">Realize lexical analyzer with java!</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/7/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.054Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/6/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.054Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/5/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.046Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/5/">Vita</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/4/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.042Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/4/">The study of how to solve rookitd record!</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -472,8 +373,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

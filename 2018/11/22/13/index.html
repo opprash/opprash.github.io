@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Lu Ruan</title>
+  <title>Java最简单的算法 | Lu Ruan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="A java coder">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lu Ruan">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="java实现快速map、hashmap的快速查找算法及map学习！   The JAVA study of today! Java实现小数的四舍五入123456789101112131415161718192021222324252627282930package study;import java.lang.String;public class sswr &amp;#123;	/**	 \* @par">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java最简单的算法">
+<meta property="og:url" content="http://yoursite.com/2018/11/22/13/index.html">
 <meta property="og:site_name" content="Lu Ruan">
-<meta property="og:description" content="A java coder">
+<meta property="og:description" content="java实现快速map、hashmap的快速查找算法及map学习！   The JAVA study of today! Java实现小数的四舍五入123456789101112131415161718192021222324252627282930package study;import java.lang.String;public class sswr &amp;#123;	/**	 \* @par">
 <meta property="og:locale" content="Chinese&English">
+<meta property="og:updated_time" content="2018-11-22T11:53:05.187Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lu Ruan">
-<meta name="twitter:description" content="A java coder">
+<meta name="twitter:title" content="Java最简单的算法">
+<meta name="twitter:description" content="java实现快速map、hashmap的快速查找算法及map学习！   The JAVA study of today! Java实现小数的四舍五入123456789101112131415161718192021222324252627282930package study;import java.lang.String;public class sswr &amp;#123;	/**	 \* @par">
   
     <link rel="alternative" href="/atom.xml" title="Lu Ruan" type="application/atom+xml">
   
@@ -161,283 +162,186 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-13" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Java最简单的算法
+    </h1>
+  
+
+        
+        <a href="/2018/11/22/13/" class="archive-article-date">
+  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
+</a>
+        
+      </header>
     
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>java实现快速map、hashmap的快速查找算法及map学习！  </p>
+<h1 id="The-JAVA-study-of-today"><a href="#The-JAVA-study-of-today" class="headerlink" title="The JAVA study of today!"></a>The JAVA study of today!</h1><hr>
+<h3 id="Java实现小数的四舍五入"><a href="#Java实现小数的四舍五入" class="headerlink" title="Java实现小数的四舍五入"></a>Java实现小数的四舍五入</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package study;</span><br><span class="line"></span><br><span class="line">import java.lang.String;</span><br><span class="line"></span><br><span class="line">public class sswr &#123;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line"></span><br><span class="line">	 \* @param args</span><br><span class="line"></span><br><span class="line">	 */</span><br><span class="line"></span><br><span class="line">	public static void main(String\[\] args) &#123;</span><br><span class="line"></span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line"></span><br><span class="line">		double d=3.1415926;</span><br><span class="line"></span><br><span class="line">		String s1=String .format(<span class="string">"%.2f"</span>,d);</span><br><span class="line"></span><br><span class="line">		String s2=String.format(<span class="string">"%.3f"</span>, d);</span><br><span class="line"></span><br><span class="line">		System.out.println(s1);</span><br><span class="line"></span><br><span class="line">		System.out.println(s2);</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Java实现Map与hushmap的排序实现复杂度最低"><a href="#Java实现Map与hushmap的排序实现复杂度最低" class="headerlink" title="Java实现Map与hushmap的排序实现复杂度最低"></a>Java实现Map与hushmap的排序实现复杂度最低</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">package study;</span><br><span class="line"></span><br><span class="line">import java.util.*;  </span><br><span class="line"></span><br><span class="line">import java.util.Map.Entry;  </span><br><span class="line"></span><br><span class="line">public class T4 &#123;  </span><br><span class="line"></span><br><span class="line">    public static void main(String\[\] args) &#123;  </span><br><span class="line"></span><br><span class="line">        Map&lt;Integer, Integer&gt; map = new HashMap&lt;Integer, Integer&gt;();  </span><br><span class="line"></span><br><span class="line">        Scanner sc = new Scanner(System.in);  </span><br><span class="line"></span><br><span class="line">        int num = sc.nextInt();  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (int i = 0; i &lt; num; i++) &#123;  </span><br><span class="line"></span><br><span class="line">            int key = sc.nextInt();  </span><br><span class="line"></span><br><span class="line">            int value = sc.nextInt();  </span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (map.containsKey(key)) &#123;  </span><br><span class="line"></span><br><span class="line">                map.put(key, map.get(key) + value);  </span><br><span class="line"></span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;  </span><br><span class="line"></span><br><span class="line">                map.put(key, value);  </span><br><span class="line"></span><br><span class="line">            &#125;  </span><br><span class="line"></span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">        Iterator sIterator = map.entrySet().iterator();  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span> (sIterator.hasNext()) &#123;  </span><br><span class="line"></span><br><span class="line">            Map.Entry&lt;Integer, Integer&gt; sEntry = (Entry&lt;Integer, Integer&gt;) sIterator.next();  </span><br><span class="line"></span><br><span class="line">            System.out.println(sEntry.getKey() + <span class="string">" "</span> \+ sEntry.getValue());  </span><br><span class="line"></span><br><span class="line">        &#125;  </span><br><span class="line"></span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Java实现二分查找和递归二分查找"><a href="#Java实现二分查找和递归二分查找" class="headerlink" title="Java实现二分查找和递归二分查找"></a><a href="#Java实现二分查找和递归二分查找" title="Java实现二分查找和递归二分查找"></a>Java实现二分查找和递归二分查找</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package study;</span><br><span class="line"></span><br><span class="line">import java.util.Arrays;</span><br><span class="line"></span><br><span class="line">public class binarySearch &#123;</span><br><span class="line"></span><br><span class="line">	public static int binarysearch(int \[\] array,int des)//使用二分法查找</span><br><span class="line"></span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		int low=0;</span><br><span class="line"></span><br><span class="line">		int high=array.length-1;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">while</span>(low&lt;high)</span><br><span class="line"></span><br><span class="line">		&#123;</span><br><span class="line"></span><br><span class="line">			int middle=(low+high)/2;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span>(des==array\[middle\])</span><br><span class="line"></span><br><span class="line">				<span class="built_in">return</span> middle;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(des&lt;array\[middle\])</span><br><span class="line"></span><br><span class="line">			&#123;</span><br><span class="line"></span><br><span class="line">				high=middle-1;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line"></span><br><span class="line">			&#123;</span><br><span class="line"></span><br><span class="line">				low=middle+1;</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">return</span> -1;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static int search(int \[\] array,int low,int high,int des)</span><br><span class="line"></span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(low&lt;high)</span><br><span class="line"></span><br><span class="line">		&#123;</span><br><span class="line"></span><br><span class="line">			int middle=(high+low)/2;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">if</span>(des==array\[middle\])</span><br><span class="line"></span><br><span class="line">			&#123;</span><br><span class="line"></span><br><span class="line">				<span class="built_in">return</span> array\[middle\];</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(des&lt;array\[middle\])</span><br><span class="line"></span><br><span class="line">			&#123;</span><br><span class="line"></span><br><span class="line">				<span class="built_in">return</span> search(array,low,middle-1,des);</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">else</span></span><br><span class="line"></span><br><span class="line">			&#123;</span><br><span class="line"></span><br><span class="line">				<span class="built_in">return</span> search(array,middle+1,high,des);</span><br><span class="line"></span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="built_in">return</span> -1;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line"></span><br><span class="line">	 \* @param args</span><br><span class="line"></span><br><span class="line">	 */</span><br><span class="line"></span><br><span class="line">	public static void main(String\[\] args) &#123;</span><br><span class="line"></span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line"></span><br><span class="line">		int srcArray\[\] = &#123; 1, 25, 24, 12, 69, 2, 2, 4 &#125;;  </span><br><span class="line"></span><br><span class="line">        Arrays.sort(srcArray);  </span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(int i=0;i&lt;srcArray.length;i++)</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">        	System.out.print(srcArray\[i\]+<span class="string">" "</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        System.out.println(search(srcArray, 0, srcArray.length, 12));  </span><br><span class="line"></span><br><span class="line">        System.out.println(binarysearch(srcArray, 0)); </span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="java实现快速排序"><a href="#java实现快速排序" class="headerlink" title="java实现快速排序"></a>java实现快速排序</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package study;</span><br><span class="line"></span><br><span class="line">public class sort &#123;</span><br><span class="line"></span><br><span class="line">	public void swap(int\[\] array,int index1,int index2 )</span><br><span class="line"></span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		int temp;</span><br><span class="line"></span><br><span class="line">		temp=array\[index1\];</span><br><span class="line"></span><br><span class="line">		array\[index1\]=array\[index2\];</span><br><span class="line"></span><br><span class="line">		array\[index2\]=temp;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private int PivotIndex(int\[\] v, int first, int last)  </span><br><span class="line"></span><br><span class="line">	&#123;  </span><br><span class="line"></span><br><span class="line">	    <span class="keyword">if</span> (last == first)  </span><br><span class="line"></span><br><span class="line">	    &#123;  </span><br><span class="line"></span><br><span class="line">	        <span class="built_in">return</span> last;  </span><br><span class="line"></span><br><span class="line">	    &#125;  </span><br><span class="line"></span><br><span class="line">	    <span class="keyword">if</span> (last - first == 1)  </span><br><span class="line"></span><br><span class="line">	    &#123;  </span><br><span class="line"></span><br><span class="line">	        <span class="built_in">return</span> first;  </span><br><span class="line"></span><br><span class="line">	    &#125;  </span><br><span class="line"></span><br><span class="line">	    int mid = (first + last) / 2;  </span><br><span class="line"></span><br><span class="line">	    int midVal = v\[mid\];   </span><br><span class="line"></span><br><span class="line">	    swap(v, first, mid);  </span><br><span class="line"></span><br><span class="line">	    int scanA = first + 1;  </span><br><span class="line"></span><br><span class="line">	    int scanB = last - 1;  </span><br><span class="line"></span><br><span class="line">	    <span class="keyword">for</span> (; ; )  </span><br><span class="line"></span><br><span class="line">	    &#123;  </span><br><span class="line"></span><br><span class="line">	        <span class="keyword">while</span> (scanA &lt;= scanB &amp;&amp; v\[scanA\] &lt; midVal)  </span><br><span class="line"></span><br><span class="line">	        &#123;  </span><br><span class="line"></span><br><span class="line">	            scanA++;  </span><br><span class="line"></span><br><span class="line">	        &#125;  </span><br><span class="line"></span><br><span class="line">	        <span class="keyword">while</span> (scanB &gt; first &amp;&amp; midVal &lt;= v\[scanB\])  </span><br><span class="line"></span><br><span class="line">	        &#123;  </span><br><span class="line"></span><br><span class="line">	            scanB--;  </span><br><span class="line"></span><br><span class="line">	        &#125;  </span><br><span class="line"></span><br><span class="line">	        <span class="keyword">if</span> (scanA &gt;= scanB)  </span><br><span class="line"></span><br><span class="line">	        &#123;  </span><br><span class="line"></span><br><span class="line">	            <span class="built_in">break</span>;  </span><br><span class="line"></span><br><span class="line">	        &#125;  </span><br><span class="line"></span><br><span class="line">	        swap(v, scanA, scanB);  </span><br><span class="line"></span><br><span class="line">	        scanA++;  </span><br><span class="line"></span><br><span class="line">	        scanB--;  </span><br><span class="line"></span><br><span class="line">	    &#125;  </span><br><span class="line"></span><br><span class="line">	    swap(v, first, scanB);  </span><br><span class="line"></span><br><span class="line">	    <span class="built_in">return</span> scanB;  </span><br><span class="line"></span><br><span class="line">	&#125;  </span><br><span class="line"></span><br><span class="line">	public void FastSort(int\[\] v, int first, int last) //快速排序 </span><br><span class="line"></span><br><span class="line">	&#123;  </span><br><span class="line"></span><br><span class="line">	    <span class="keyword">if</span> (last - first &lt;= 1)  </span><br><span class="line"></span><br><span class="line">	    &#123;  </span><br><span class="line"></span><br><span class="line">	        <span class="built_in">return</span>;  </span><br><span class="line"></span><br><span class="line">	    &#125;  </span><br><span class="line"></span><br><span class="line">	    <span class="keyword">if</span> (last - first == 2)  </span><br><span class="line"></span><br><span class="line">	    &#123;  </span><br><span class="line"></span><br><span class="line">	        //Sub-table contains two elements  </span><br><span class="line"></span><br><span class="line">	        <span class="keyword">if</span> (v\[first\] &gt; v\[last - 1\])  </span><br><span class="line"></span><br><span class="line">	        &#123;  </span><br><span class="line"></span><br><span class="line">	            swap(v, first, last - 1);  </span><br><span class="line"></span><br><span class="line">	        &#125;  </span><br><span class="line"></span><br><span class="line">	        <span class="built_in">return</span>;  </span><br><span class="line"></span><br><span class="line">	    &#125;  </span><br><span class="line"></span><br><span class="line">	    <span class="keyword">else</span>  </span><br><span class="line"></span><br><span class="line">	    &#123;  </span><br><span class="line"></span><br><span class="line">	        int pivotIndex = PivotIndex(v, first, last);  </span><br><span class="line"></span><br><span class="line">	        FastSort(v, first, pivotIndex);  </span><br><span class="line"></span><br><span class="line">	        FastSort(v, pivotIndex + 1, last);  </span><br><span class="line"></span><br><span class="line">	    &#125;  </span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	/**</span><br><span class="line"></span><br><span class="line">	 \* @param args</span><br><span class="line"></span><br><span class="line">	 */</span><br><span class="line"></span><br><span class="line">	public static void main(String\[\] args) &#123;</span><br><span class="line"></span><br><span class="line">		// TODO Auto-generated method stub</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="map学习"><a href="#map学习" class="headerlink" title="map学习"></a>map学习</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">package study;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"></span><br><span class="line">map集合的两种取出方式：</span><br><span class="line"></span><br><span class="line">1，Set&lt;k&gt; keySet：将map中所有的键存入到Set集合。因为<span class="built_in">set</span>具备迭代器。</span><br><span class="line"></span><br><span class="line">    所有可以迭代方式取出所有的键，在根据get方法。获取每一个键对应的值。</span><br><span class="line"></span><br><span class="line">    Map集合的取出原理：将map集合转成<span class="built_in">set</span>集合。在通过迭代器取出。</span><br><span class="line"></span><br><span class="line">2，Set&lt;Map.Entry&lt;k,v&gt;&gt; entrySet：将map集合中的映射关系存入到了<span class="built_in">set</span>集合中，</span><br><span class="line"></span><br><span class="line">                而这个关系的数据类型就是：Map.Entry</span><br><span class="line"></span><br><span class="line">                Entry其实就是Map中的一个static内部接口。</span><br><span class="line"></span><br><span class="line">                为什么要定义在内部呢？</span><br><span class="line"></span><br><span class="line">                因为只有有了Map集合，有了键值对，才会有键值的映射关系。</span><br><span class="line"></span><br><span class="line">                关系属于Map集合中的一个内部事物。</span><br><span class="line"></span><br><span class="line">                而且该事物在直接访问Map集合中的元素。</span><br><span class="line"></span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">import java.util.*;</span><br><span class="line"></span><br><span class="line">public class MapDemo2&#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String\[\] args) </span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        Map&lt;String,String&gt; map = new HashMap&lt;String,String&gt;();</span><br><span class="line"></span><br><span class="line">        map.put(<span class="string">"02"</span>,<span class="string">"zhangsan2"</span>);</span><br><span class="line"></span><br><span class="line">        map.put(<span class="string">"03"</span>,<span class="string">"zhangsan3"</span>);</span><br><span class="line"></span><br><span class="line">        map.put(<span class="string">"01"</span>,<span class="string">"zhangsan1"</span>);</span><br><span class="line"></span><br><span class="line">        map.put(<span class="string">"04"</span>,<span class="string">"zhangsan4"</span>);</span><br><span class="line"></span><br><span class="line">        //将Map集合中的映射关系取出。存入到Set集合中。</span><br><span class="line"></span><br><span class="line">        Set&lt;Map.Entry&lt;String,String&gt;&gt; entrySet = map.entrySet();</span><br><span class="line"></span><br><span class="line">        Iterator&lt;Map.Entry&lt;String,String&gt;&gt; it = entrySet.iterator();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(it.hasNext())</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            Map.Entry&lt;String,String&gt; me = it.next();</span><br><span class="line"></span><br><span class="line">            String key = me.getKey();</span><br><span class="line"></span><br><span class="line">            String value = me.getValue();</span><br><span class="line"></span><br><span class="line">            System.out.println(key+<span class="string">":"</span>+value);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        /*</span><br><span class="line"></span><br><span class="line">        //先获取map集合的所有键的Set集合,keySet();</span><br><span class="line"></span><br><span class="line">        Set&lt;String&gt; keySet = map.keySet();</span><br><span class="line"></span><br><span class="line">        //有了Set集合。就可以获取其迭代器。</span><br><span class="line"></span><br><span class="line">        Iterator&lt;String&gt; it = keySet.iterator();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">while</span>(it.hasNext())</span><br><span class="line"></span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            String key = it.next();</span><br><span class="line"></span><br><span class="line">            //有了键可以通过map集合的get方法获取其对应的值。</span><br><span class="line"></span><br><span class="line">            String value  = map.get(key);</span><br><span class="line"></span><br><span class="line">            System.out.println(<span class="string">"key:"</span>+key+<span class="string">",value:"</span>+value);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        */</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/*</span><br><span class="line"></span><br><span class="line">Map.Entry 其实Entry也是一个接口，它是Map接口中的一个内部接口。</span><br><span class="line"></span><br><span class="line">interface Map</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    public static interface Entry</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        public abstract Object getKey();</span><br><span class="line"></span><br><span class="line">        public abstract Object getValue();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class HashMap implements Map</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    class Hahs implements Map.Entry</span><br><span class="line"></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        public  Object <span class="function"><span class="title">getKey</span></span>()&#123;&#125;</span><br><span class="line"></span><br><span class="line">        public  Object <span class="function"><span class="title">getValue</span></span>()&#123;&#125;</span><br><span class="line"></span><br><span class="line">    &#125;   </span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+
+
+
+
+
+
+
+
+  <div class="declare" hidden="hidden"></div>
+
+
+
+
+
+
+
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/10/" class="archive-article-date">
-  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/10/">Linux常用的命令--60个命令总结汇总</a>
-    </h1>
-  
+      
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/11/22/13/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/12/" class="archive-article-date">
-  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2018/11/22/12/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          LR(1)语法分析器的实现
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/11/22/9/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">LL（1）语法分析器的实现</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/12/">LR(1)语法分析器的实现</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/13/" class="archive-article-date">
-  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/13/">Java最简单的算法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/9/" class="archive-article-date">
-  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/9/">LL（1）语法分析器的实现</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/11/" class="archive-article-date">
-  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/11/">TSFH turn to Coldplay</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/8/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.062Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/8/">Realize lexical analyzer with java!</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/7/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.054Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/6/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.054Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/5/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.046Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/5/">Vita</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/4/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.042Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/4/">The study of how to solve rookitd record!</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -472,8 +376,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
