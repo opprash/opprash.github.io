@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018 | Lu Ruan</title>
+  <title>Virtualization monitoring process | Lu Ruan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="A java coder">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lu Ruan">
-<meta property="og:url" content="http://yoursite.com/archives/2018/index.html">
+  <meta name="description" content="With the popularity of cloud computing, virtual machine introspection techniques and tools are increasingly being used to monitor the behavior of virtual machines in the IaaS cloud. With the help of t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Virtualization monitoring process">
+<meta property="og:url" content="http://yoursite.com/2018/11/22/1/index.html">
 <meta property="og:site_name" content="Lu Ruan">
-<meta property="og:description" content="A java coder">
+<meta property="og:description" content="With the popularity of cloud computing, virtual machine introspection techniques and tools are increasingly being used to monitor the behavior of virtual machines in the IaaS cloud. With the help of t">
 <meta property="og:locale" content="Chinese&English">
+<meta property="og:updated_time" content="2018-11-22T09:47:43.169Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lu Ruan">
-<meta name="twitter:description" content="A java coder">
+<meta name="twitter:title" content="Virtualization monitoring process">
+<meta name="twitter:description" content="With the popularity of cloud computing, virtual machine introspection techniques and tools are increasingly being used to monitor the behavior of virtual machines in the IaaS cloud. With the help of t">
   
     <link rel="alternative" href="/atom.xml" title="Lu Ruan" type="application/atom+xml">
   
@@ -161,76 +162,180 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-1" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      Virtualization monitoring process
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/1/" class="archive-article-date">
+
+        
+        <a href="/2018/11/22/1/" class="archive-article-date">
   	<time datetime="2018-11-22T09:48:08.186Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/1/">Virtualization monitoring process</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>With the popularity of cloud computing, virtual machine introspection techniques and tools are increasingly being used to monitor the behavior of virtual machines in the IaaS cloud. With the help of these technologies, many applications can be installed outside the virtual machine, but also can provide services for the virtual machine, such as security monitoring software, virus detection software. But the technology must overcome a problem, the semantic gap: the management program can see the city state and their virtual machine within the expression of the semantic separation. This article focuses on the use of introspection technology to monitor the kernel process and the days of stepping on the various pit.  </p>
+<hr>
+<h3 id="install-xen-on-the-ubuntu"><a href="#install-xen-on-the-ubuntu" class="headerlink" title="install xen on the ubuntu"></a>install xen on the ubuntu</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install virt-manager</span><br><span class="line"></span><br><span class="line">$ sudo apt-get install xen-hypervisor-amd64</span><br><span class="line"></span><br><span class="line">$ sudo reboot</span><br><span class="line"></span><br><span class="line">$ sudo xl list(Check <span class="keyword">if</span> the installation is successful)</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">Site of docu: [Xen](https://xenserver.org/)</span><br><span class="line"></span><br><span class="line"><span class="comment">### The virtual machine is created to run</span></span><br><span class="line">```bash</span><br><span class="line">$ sudo apt-get update</span><br><span class="line"></span><br><span class="line">$ sudo apt-get -y install virt-manager qemu-system</span><br><span class="line"></span><br><span class="line">$ There is no need <span class="keyword">for</span> instructions here, as to download ubuntu system</span><br><span class="line"></span><br><span class="line">Attention：The default is to create a virtual machine under QEMU / KVM, but we need to create a virtual machine under xen, as follows</span><br><span class="line"></span><br><span class="line">Click on the file to create a new connectionThen, create a new virtual machine: self-add system iso file, install the virtual system, </span><br><span class="line"></span><br><span class="line">I installed is ubuntu14.04: (after testing, only ubuntu14.04 behind it can be monitored)</span><br><span class="line"></span><br><span class="line">The The The In the creation of virtual machines, we used the 2048M ram 2 cpu! The The</span><br><span class="line"></span><br><span class="line">installation. The The The The The The The The</span><br><span class="line"></span><br><span class="line">And <span class="keyword">then</span> <span class="built_in">type</span> the <span class="built_in">command</span> line $ sudo xl list on dom0, you can see xen monitor the two systems:</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://www.ubuntu.org.cn/index_kylin" target="_blank" rel="noopener">Ubuntu</a></p>
+<h3 id="libvmi-variant-installation"><a href="#libvmi-variant-installation" class="headerlink" title="libvmi variant installation"></a>libvmi variant installation</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">1 sudo apt-get install libglib2.0-dev</span><br><span class="line"></span><br><span class="line">./autogen.sh</span><br><span class="line"></span><br><span class="line">If Error: could not find libtoolize or glibtoolize</span><br><span class="line"></span><br><span class="line">Solve: sudo apt-get install libtool</span><br><span class="line"></span><br><span class="line">2 ./autogen.sh</span><br><span class="line"></span><br><span class="line">  ./configure</span><br><span class="line"></span><br><span class="line">If missing xenstore</span><br><span class="line"></span><br><span class="line">Solve:sudo apt-get install libxen-dev... ...</span><br><span class="line"></span><br><span class="line">you just need to install whats the packge you need!</span><br><span class="line"></span><br><span class="line">sudo apt-get install check</span><br><span class="line"></span><br><span class="line">./autogen.sh</span><br><span class="line"></span><br><span class="line">./configure</span><br><span class="line"></span><br><span class="line">Last:View the files under libvmi-0.10.1 / example</span><br><span class="line"></span><br><span class="line">If you can find process-list、process-list.c、process-list.o,<span class="keyword">then</span> congratulation to you <span class="keyword">for</span> that you are successful!</span><br><span class="line"></span><br><span class="line">More info: As each person’s computer situation is different, the installation process has different problems, welcome to ask, I will solve <span class="keyword">for</span> everyone!</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://libvmi.com/" target="_blank" rel="noopener">libvmi</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Formula: * p = p-pid;</span><br><span class="line"></span><br><span class="line">More info: According to the various versions of the operating system data structure Xie wrote the main <span class="keyword">function</span> of the module and Makfile file  </span><br><span class="line">Formula: * p = p-pid;  </span><br><span class="line">Also perform a file to view the kernel data structure of the various defined macros as well as the operation</span><br></pre></td></tr></table></figure>
+<p>More info: <a href="http://blog.csdn.net/geekcome/article/details/6196044" target="_blank" rel="noopener">CSDN</a></p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+
+
+
+
+
+
+
+
+  <div class="declare" hidden="hidden"></div>
+
+
+
+
+
+
+
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/11/22/1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/21/hello-world/" class="archive-article-date">
-  	<time datetime="2018-11-21T09:25:53.060Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-21</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/21/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Hello World</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/21/hello-world/">Hello World</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
+
+  
 
 
           </div>
@@ -264,8 +369,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
