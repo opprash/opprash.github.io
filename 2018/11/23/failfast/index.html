@@ -6,18 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2018/11 | Lu Ruan</title>
+  <title>java集合中的faifast机制 | Lu Ruan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="A java coder">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Lu Ruan">
-<meta property="og:url" content="http://yoursite.com/archives/2018/11/index.html">
+  <meta name="description" content="什么是faifast机制?faifast机制是java集合的一种检错机制,当你在多线程的场景中比如是两个线程的场景中,第一个线程在使用迭代器遍历这个集合比(如是arraylist集合)的过程中第二个线程修改了这个集合的结构,注意是机构!的时候就可能会发生failfast错误抛出ConcurrentModificationException. java集合中常见的一些描述:ArrayList:注意，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java集合中的faifast机制">
+<meta property="og:url" content="http://yoursite.com/2018/11/23/failfast/index.html">
 <meta property="og:site_name" content="Lu Ruan">
-<meta property="og:description" content="A java coder">
+<meta property="og:description" content="什么是faifast机制?faifast机制是java集合的一种检错机制,当你在多线程的场景中比如是两个线程的场景中,第一个线程在使用迭代器遍历这个集合比(如是arraylist集合)的过程中第二个线程修改了这个集合的结构,注意是机构!的时候就可能会发生failfast错误抛出ConcurrentModificationException. java集合中常见的一些描述:ArrayList:注意，">
 <meta property="og:locale" content="Chinese&English">
+<meta property="og:updated_time" content="2018-11-23T08:18:43.038Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Lu Ruan">
-<meta name="twitter:description" content="A java coder">
+<meta name="twitter:title" content="java集合中的faifast机制">
+<meta name="twitter:description" content="什么是faifast机制?faifast机制是java集合的一种检错机制,当你在多线程的场景中比如是两个线程的场景中,第一个线程在使用迭代器遍历这个集合比(如是arraylist集合)的过程中第二个线程修改了这个集合的结构,注意是机构!的时候就可能会发生failfast错误抛出ConcurrentModificationException. java集合中常见的一些描述:ArrayList:注意，">
   
     <link rel="alternative" href="/atom.xml" title="Lu Ruan" type="application/atom+xml">
   
@@ -161,283 +162,185 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-failfast" class="article article-type-post " itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      java集合中的faifast机制
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/23/failfast/" class="archive-article-date">
+
+        
+        <a href="/2018/11/23/failfast/" class="archive-article-date">
   	<time datetime="2018-11-23T08:19:07.705Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-23</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/23/failfast/">java集合中的faifast机制</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>什么是faifast机制?faifast机制是java集合的一种检错机制,当你在多线程的场景中比如是两个线程的场景中,第一个线程在使用迭代器遍历这个集合比(如是arraylist集合)的过程中第二个线程修改了这个集合的结构,注意是机构!的时候就可能会发生failfast错误抛出ConcurrentModificationException.</p>
+<h3 id="java集合中常见的一些描述"><a href="#java集合中常见的一些描述" class="headerlink" title="java集合中常见的一些描述:"></a>java集合中常见的一些描述:</h3><p>ArrayList:<br>注意，迭代器的快速失败行为无法得到保证，因为一般来说，不可能对是否出现不同步并发修改做出任何硬性保证。快速失败迭代器会尽最大努力抛ConcurrentModificationException。因此，为提高这类迭代器的正确性而编写一个依赖于此异常的程序是错误的做法：迭代器的快速失败行为应该仅用于检测 bug。</p>
+<p>HashMap中：<br>注意，迭代器的快速失败行为不能得到保证，一般来说，存在非同步的并发修改时，不可能作出任何坚决的保证。快速失败迭代器尽最大努力抛出 ConcurrentModificationException。因此，编写依赖于此异常的程序的做法是错误的，正确做法是：迭代器的快速失败行为应该仅用于检测程序错误。</p>
+<p>##　一．failfast示例<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">package com.springcould3.demo.ｓｔｕｄｙ;</span><br><span class="line"></span><br><span class="line">import java.util.ArrayList;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: opprash</span><br><span class="line"> * @Date: 11/23/18 3:47 PM</span><br><span class="line"> * @Version 1.0</span><br><span class="line"> */</span><br><span class="line">public class failfastTest &#123;</span><br><span class="line">    public static  List&lt;Integer&gt; list=new ArrayList&lt;Integer&gt;(5) ;</span><br><span class="line">    private static class thead1 extends Thread&#123;</span><br><span class="line">        //@Override</span><br><span class="line">        public void <span class="function"><span class="title">run</span></span>()&#123;</span><br><span class="line">            Iterator&lt;Integer&gt;iterator=list.iterator();</span><br><span class="line">            <span class="keyword">while</span>(iterator.hasNext())&#123;</span><br><span class="line">                int i=iterator.next();</span><br><span class="line">                System.out.println(<span class="string">"1遍历：　"</span>+i);</span><br><span class="line">                try&#123;</span><br><span class="line">                    Thread.sleep(100);</span><br><span class="line">                &#125;catch (InterruptedException e)&#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class  thead2 extends Thread&#123;</span><br><span class="line">        public void <span class="function"><span class="title">run</span></span>()&#123;</span><br><span class="line">            int i=0;</span><br><span class="line">            <span class="keyword">while</span>(i&lt;5)&#123;</span><br><span class="line">                System.out.println(<span class="string">"2 run: "</span>+i);</span><br><span class="line">                <span class="keyword">if</span>(i==3)&#123;</span><br><span class="line">                    list.remove(i);</span><br><span class="line">                &#125;</span><br><span class="line">                i++;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String [] args)&#123;</span><br><span class="line">        <span class="keyword">for</span>(int i=0;i&lt;10;i++)&#123;</span><br><span class="line">            list.add(i);</span><br><span class="line">        &#125;</span><br><span class="line">        new thead1().start();</span><br><span class="line">        new thead2().start();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1遍历：　0</span><br><span class="line">2 run: 0</span><br><span class="line">2 run: 1</span><br><span class="line">2 run: 2</span><br><span class="line">2 run: 3</span><br><span class="line">2 run: 4</span><br><span class="line">Exception <span class="keyword">in</span> thread <span class="string">"Thread-0"</span> java.util.ConcurrentModificationException</span><br><span class="line">	at java.util.ArrayList<span class="variable">$Itr</span>.checkForComodification(ArrayList.java:909)</span><br><span class="line">	at java.util.ArrayList<span class="variable">$Itr</span>.next(ArrayList.java:859)</span><br><span class="line">	at com.springcould3.demo.ｓｔｕｄｙ.failfastTest<span class="variable">$thead1</span>.run(failfastTest.java:19)</span><br><span class="line"></span><br><span class="line">Process finished with <span class="built_in">exit</span> code 0</span><br></pre></td></tr></table></figure></p>
+<p>二：faifast产生的原因：我们看看Arraylist中迭代器的代码<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">private class Itr implements Iterator&lt;E&gt; &#123;</span><br><span class="line">        int cursor;</span><br><span class="line">        int lastRet = -1;</span><br><span class="line">        int expectedModCount = ArrayList.this.modCount;</span><br><span class="line"></span><br><span class="line">        public boolean <span class="function"><span class="title">hasNext</span></span>() &#123;</span><br><span class="line">            <span class="built_in">return</span> (this.cursor != ArrayList.this.size);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public E <span class="function"><span class="title">next</span></span>() &#123;</span><br><span class="line">            checkForComodification();</span><br><span class="line">            /** 省略此处代码 */</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public void <span class="function"><span class="title">remove</span></span>() &#123;</span><br><span class="line">            <span class="keyword">if</span> (this.lastRet &lt; 0)</span><br><span class="line">                throw new IllegalStateException();</span><br><span class="line">            checkForComodification();</span><br><span class="line">            /** 省略此处代码 */</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        final void <span class="function"><span class="title">checkForComodification</span></span>() &#123;</span><br><span class="line">            <span class="keyword">if</span> (ArrayList.this.modCount == this.expectedModCount)</span><br><span class="line">                <span class="built_in">return</span>;</span><br><span class="line">            throw new ConcurrentModificationException();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>从源代码中不难看出，arraylist的add()和remove()等方法都调用了checkForComodification()方法，而这个方法的原理是判断这个条件：modCount==expectedModCount这个条件是否成立，如果成立直接返回，不成立就抛出ConcurrentModificationException异常，从而产生ｆａｉｌｆａｓｔ机制<br>expectedModCount 是在Itr中定义的：int expectedModCount = ArrayList.this.modCount;所以他的值是不可能会修改的，所以会变的就是modCount。modCount是在 AbstractList 中定义的，为全局变量：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">protected transient int modCount = 0;</span><br></pre></td></tr></table></figure></p>
+<p>那么他什么时候因为什么原因而发生改变呢？请看ArrayList的源码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">public boolean add(E paramE) &#123;</span><br><span class="line">        ensureCapacityInternal(this.size + 1);</span><br><span class="line">        /** 省略此处代码 */</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void ensureCapacityInternal(int paramInt) &#123;</span><br><span class="line">        <span class="keyword">if</span> (this.elementData == EMPTY_ELEMENTDATA)</span><br><span class="line">            paramInt = Math.max(10, paramInt);</span><br><span class="line">        ensureExplicitCapacity(paramInt);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    private void ensureExplicitCapacity(int paramInt) &#123;</span><br><span class="line">        this.modCount += 1;    //修改modCount</span><br><span class="line">        /** 省略此处代码 */</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">   public boolean remove(Object paramObject) &#123;</span><br><span class="line">        int i;</span><br><span class="line">        <span class="keyword">if</span> (paramObject == null)</span><br><span class="line">            <span class="keyword">for</span> (i = 0; i &lt; this.size; ++i) &#123;</span><br><span class="line">                <span class="keyword">if</span> (this.elementData[i] != null)</span><br><span class="line">                    <span class="built_in">continue</span>;</span><br><span class="line">                fastRemove(i);</span><br><span class="line">                <span class="built_in">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">            <span class="keyword">for</span> (i = 0; i &lt; this.size; ++i) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!(paramObject.equals(this.elementData[i])))</span><br><span class="line">                    <span class="built_in">continue</span>;</span><br><span class="line">                fastRemove(i);</span><br><span class="line">                <span class="built_in">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        <span class="built_in">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void fastRemove(int paramInt) &#123;</span><br><span class="line">        this.modCount += 1;   //修改modCount</span><br><span class="line">        /** 省略此处代码 */</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void <span class="function"><span class="title">clear</span></span>() &#123;</span><br><span class="line">        this.modCount += 1;    //修改modCount</span><br><span class="line">        /** 省略此处代码 */</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>从上面的源码中不难看出，ArrayList中无论add,remove,clear等方法只要涉及到改变集合结构的方法都会导致modCount的改变，所以modCount的改变和expectModCount的改变不同步从而产生failfast机制．<br>有两个线程（线程A，线程B），其中线程A负责遍历list、线程B修改list。线程A在遍历list过程的某个时候（此时expectedModCount = modCount=N），线程启动，同时线程B增加一个元素，这是modCount的值发生改变（modCount + 1 = N + 1）。线程A继续遍历执行next方法时，通告checkForComodification方法发现expectedModCount  = N  ，而modCount = N + 1，两者不等，这时就抛出ConcurrentModificationException 异常，从而产生fail-fast机制。</p>
+<p>所以，直到这里我们已经完全了解了fail-fast产生的根本原因了。知道了原因就好找解决办法了。</p>
+<h3 id="faifast解决办法："><a href="#faifast解决办法：" class="headerlink" title="faifast解决办法："></a>faifast解决办法：</h3><p>案一：在遍历过程中所有涉及到改变modCount值得地方全部加上synchronized或者直接使用Collections.synchronizedList，这样就可以解决。但是不推荐，因为增删造成的同步锁可能会阻塞遍历操作。</p>
+<p>方案二：使用CopyOnWriteArrayList来替换ArrayList。推荐使用该方案。<br>CopyOnWriteArrayList为何物呢？<br>第一、CopyOnWriterArrayList的无论是从数据结构、定义都和ArrayList一样。它和ArrayList一样，同样是实现List接口，底层使用数组实现。在方法上也包含add、remove、clear、iterator等方法。</p>
+<p>第二、CopyOnWriterArrayList根本就不会产生ConcurrentModificationException异常，也就是它使用迭代器完全不会产生fail-fast机制<br>CopyOnWriterArrayList所代表的核心概念就是：任何对array在结构上有所改变的操作（add、remove、clear等），CopyOnWriterArrayList都会copy现有的数据，再在copy的数据上修改，这样就不会影响COWIterator中的数据了，修改完成之后改变原有数据的引用即可。同时这样造成的代价就是产生大量的对象，同时数组的copy也是相当有损耗的。</p>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+
+
+
+
+
+
+
+
+  <div class="declare" hidden="hidden"></div>
+
+
+
+
+
+
+
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/11/23/failfast/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/14/" class="archive-article-date">
-  	<time datetime="2018-11-22T13:19:50.374Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/22/14/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">博客搬家感想</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/14/">博客搬家感想</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/13/" class="archive-article-date">
-  	<time datetime="2018-11-22T12:10:12.836Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/13/">Java最简单的算法</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/12/" class="archive-article-date">
-  	<time datetime="2018-11-22T12:09:08.939Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/12/">LR(1)语法分析器的实现</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/11/" class="archive-article-date">
-  	<time datetime="2018-11-22T12:08:22.438Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/11/">TSFH turn to Coldplay</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/10/" class="archive-article-date">
-  	<time datetime="2018-11-22T12:07:51.305Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/10/">Linux常用的命令--60个命令总结汇总</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/9/" class="archive-article-date">
-  	<time datetime="2018-11-22T11:59:56.658Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/9/">LL（1）语法分析器的实现</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/8/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.062Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/11/22/8/">Realize lexical analyzer with java!</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/6/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.054Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/11/22/7/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.054Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2018/11/page/2/">2</a><a class="extend next" rel="next" href="/archives/2018/11/page/2/">Next &raquo;</a>
-    </nav>
   
 
 
@@ -472,8 +375,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
