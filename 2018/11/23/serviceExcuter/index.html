@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Pocess | Lu Ruan</title>
+  <title>扩展和优化线程池 | Lu Ruan</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="What is a rootkit? It is estimated that many friends do not understand, simply said, Rootkit is a special kind of malicious software, its function isIn the installation of the target to hide their own">
+  <meta name="description" content="作者：莫那·鲁道出处:并发编程之线程池的使用及扩展和优化 一．首先我们来看看日常常用的线程池工厂Execyters先给个例子：123456789101112131415161718192021222324252627282930import java.util.concurrent.ExecutorService;import java.util.concurrent.Executors;/**">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Pocess">
-<meta property="og:url" content="http://yoursite.com/2018/11/22/2/index.html">
+<meta property="og:title" content="扩展和优化线程池">
+<meta property="og:url" content="http://yoursite.com/2018/11/23/serviceExcuter/index.html">
 <meta property="og:site_name" content="Lu Ruan">
-<meta property="og:description" content="What is a rootkit? It is estimated that many friends do not understand, simply said, Rootkit is a special kind of malicious software, its function isIn the installation of the target to hide their own">
+<meta property="og:description" content="作者：莫那·鲁道出处:并发编程之线程池的使用及扩展和优化 一．首先我们来看看日常常用的线程池工厂Execyters先给个例子：123456789101112131415161718192021222324252627282930import java.util.concurrent.ExecutorService;import java.util.concurrent.Executors;/**">
 <meta property="og:locale" content="Chinese&English">
-<meta property="og:updated_time" content="2018-11-22T10:22:37.887Z">
+<meta property="og:updated_time" content="2018-11-23T08:58:24.193Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pocess">
-<meta name="twitter:description" content="What is a rootkit? It is estimated that many friends do not understand, simply said, Rootkit is a special kind of malicious software, its function isIn the installation of the target to hide their own">
+<meta name="twitter:title" content="扩展和优化线程池">
+<meta name="twitter:description" content="作者：莫那·鲁道出处:并发编程之线程池的使用及扩展和优化 一．首先我们来看看日常常用的线程池工厂Execyters先给个例子：123456789101112131415161718192021222324252627282930import java.util.concurrent.ExecutorService;import java.util.concurrent.Executors;/**">
   
     <link rel="alternative" href="/atom.xml" title="Lu Ruan" type="application/atom+xml">
   
@@ -162,185 +162,47 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-2" class="article article-type-post " itemscope="" itemprop="blogPost">
+            <article id="post-serviceExcuter" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Pocess
+      扩展和优化线程池
     </h1>
   
 
         
-        <a href="/2018/11/22/2/" class="archive-article-date">
-  	<time datetime="2018-11-22T10:36:36.030Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-22</time>
+        <a href="/2018/11/23/serviceExcuter/" class="archive-article-date">
+  	<time datetime="2018-11-23T09:02:29.655Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-11-23</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>What is a rootkit? It is estimated that many friends do not understand, simply said, Rootkit is a special kind of malicious software, its function is<br>In the installation of the target to hide their own and specify the documents, processes and network links and other information, more common is the rootkit generally and wood<br>Horse, back door and other malicious programs used in combination. Rootkit by loading a special driver, modify the system kernel, and then to hide the letter<br>The purpose of interest. Technology is a double-edged sword, we study it is the purpose, through our research, with this technology to protect our system,<br>So that our system more robust, give full play to the positive application of this technology.  </p>
-<h1 id="Process-monitoring"><a href="#Process-monitoring" class="headerlink" title="Process monitoring"></a>Process monitoring</h1><hr>
-<h3 id="Create-a-new-drive"><a href="#Create-a-new-drive" class="headerlink" title="Create a new drive"></a>Create a new drive</h3><pre><code class="bash">
-ULONG __stdcall check(PULONG arg)//获得指向服务参数指针
-
-{
-
-  HANDLE hand=0;PFILE_OBJECT file=0;
-
-  POBJECT\_HANDLE\_INFORMATION info=0;ULONG a;char*buff;
-
-  ANSI\_STRING str; LARGE\_INTEGER li;li.QuadPart=-10000;
-
-<span class="keyword">if</span>((arg\[4\]&amp;0xf0)==0)<span class="built_in">return</span> 1;//检测标志
-
-<span class="keyword">if</span>((arg\[5\]&amp;0x01000000)==0)<span class="built_in">return</span> 1;//检测属性
-
-//通过文件句柄获得文件名
-
-hand=(HANDLE)arg\[6\];//获得执行文件句柄
-
-ObReferenceObjectByHandle(hand,0,0,KernelMode,&amp;file,info);//&amp;file获得对象体指针
-
-<span class="keyword">if</span>(!file)<span class="built_in">return</span> 1;
-
-RtlUnicodeStringToAnsiString(&amp;str,&amp;file-&gt;FileName,1);
-
-a=str.Length;buff=str.Buffer;
-
-<span class="keyword">while</span>(1)//通过循环判断是不是有<span class="string">". "</span>标志
-
-{
-
-<span class="keyword">if</span>(buff\[a\]==<span class="string">'.'</span>)
-
-{a++;<span class="built_in">break</span>;}
-
-  a--;
-
-}
-
-ObDereferenceObject(file);
-
-<span class="keyword">if</span>(_stricmp(&amp;buff\[a\],<span class="string">"exe"</span>)){RtlFreeAnsiString(&amp;str);<span class="built_in">return</span> 1;}//判断是否为可执行文件
-
-KeWaitForSingleObject(&amp;event,Executive,KernelMode,0,0);//将当前线程置于等待状态知道信号态
-
-strcpy(&amp;output\[8\],buff);//将string复制进buff
-
-RtlFreeAnsiString(&amp;str);
-
-a=1;//用户的决定通过a的制来反映
-
-memmove(&amp;output\[0\],&amp;a,4);
-
-<span class="keyword">while</span>(1)
-
-{
-
-KeDelayExecutionThread(KernelMode,0,&amp;li);//在一个固定时间间隔内当前线程处于等待状态
-
-memmove(&amp;a,&amp;output\[0\],4);
-
-<span class="keyword">if</span>(!a)<span class="built_in">break</span>;
-
-}
-
-memmove(&amp;a,&amp;output\[4\],4);
-
-KeSetEvent(&amp;event,0,0);
-
-<span class="built_in">return</span> a;
-
-}
-
-//保存执行文件上下文，调用check()函数
-
-_declspec(naked) Proxy()
-
-{
-
-_asm{
-
-pushfd
-
-pushad
-
-mov ebx,esp
-
-add ebx,40
-
-push ebx
-
-call check
-
-cmp eax,1//由check()的返回值判断是否让可执行文件继续执行
-
-jne block
-
-popad
-
-popfd
-
-jmp RealCallee//通过，调用ntcreatesection
-
-block:popad
-
-mov ebx, dword ptr\[esp+8\]
-
-mov dword ptr\[ebx\],0
-
-mov eax,0xC0000022L//不让其通过，返回STATUS\_ACCESS\_DENIED
-
-popfd
-
-ret 32
-
-}
-
-}
-
-到此，驱动程序的工作基本完成，所以在用户程序中用到一个线程来等待驱动的判断结果。
-
- char\*name=(char\*)&amp;outputbuff\[8\];
-
-        <span class="keyword">for</span>(x=0;x&lt;stringcount;x++)
-
-        {
-
-            <span class="keyword">if</span>(!stricmp(name,strings\[x\])){a=1;goto skip;}
-
-        }
-
-        strcpy(msgbuff, <span class="string">"Do you want to run "</span>);
-
-        strcat(msgbuff,&amp;outputbuff\[8\]);
-
-        <span class="keyword">if</span>(IDYES==MessageBox(0, msgbuff,<span class="string">"WARNING"</span>,
-
-           MB\_YESNO|MB\_ICONQUESTION|0x00200000L))
-
-        {a=1; strings\[stringcount\]=_strdup(name);stringcount++;}
-
-        <span class="keyword">else</span> a=0;
-
-        // write response to the buffer, and driver will get it
-
-        skip:memmove(&amp;outputbuff\[4\],&amp;a,4);
-
-        //让驱动继续
-
-        a=0;
-
-        memmove(&amp;outputbuff\[0\],&amp;a,4);
-
-}}
-
-</code></pre>
-<p>More info: <a href="https://baike.baidu.com/item/rootkit/6356777?fr=aladdin" target="_blank" rel="noopener">Rootkit</a></p>
+        <p>作者：莫那·鲁道<br>出处:并发编程之线程池的使用及扩展和优化</p>
+<h2 id="一．首先我们来看看日常常用的线程池工厂Execyters"><a href="#一．首先我们来看看日常常用的线程池工厂Execyters" class="headerlink" title="一．首先我们来看看日常常用的线程池工厂Execyters"></a>一．首先我们来看看日常常用的线程池工厂Execyters</h2><p>先给个例子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">import java.util.concurrent.ExecutorService;</span><br><span class="line">import java.util.concurrent.Executors;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: opprash</span><br><span class="line"> * @Date: 11/23/18 4:25 PM</span><br><span class="line"> * @Version 1.0</span><br><span class="line"> */</span><br><span class="line">public class TheadPooltest implements Runnable &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void <span class="function"><span class="title">run</span></span>() &#123;</span><br><span class="line">        System.out</span><br><span class="line">                .println(System.currentTimeMillis() + <span class="string">": 线程 ID :"</span> + Thread.currentThread().getId());</span><br><span class="line">        try &#123;</span><br><span class="line">            Thread.sleep(100);</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        TheadPooltest Theadpool = new TheadPooltest();</span><br><span class="line">        ExecutorService service1 = Executors.newFixedThreadPool(5);</span><br><span class="line">        <span class="keyword">for</span> (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">            service1.submit(Theadpool);</span><br><span class="line">        &#125;</span><br><span class="line">        service1.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">1542961762180: 线程 ID :10</span><br><span class="line">1542961762180: 线程 ID :11</span><br><span class="line">1542961762180: 线程 ID :12</span><br><span class="line">1542961762188: 线程 ID :13</span><br><span class="line">1542961762194: 线程 ID :14</span><br><span class="line">1542961762280: 线程 ID :11</span><br><span class="line">1542961762281: 线程 ID :10</span><br><span class="line">1542961762281: 线程 ID :12</span><br><span class="line">1542961762288: 线程 ID :13</span><br><span class="line">1542961762294: 线程 ID :14</span><br><span class="line"></span><br><span class="line">Process finished with <span class="built_in">exit</span> code 0</span><br></pre></td></tr></table></figure></p>
+<h3 id="线程池工厂的其他线程池："><a href="#线程池工厂的其他线程池：" class="headerlink" title="线程池工厂的其他线程池："></a>线程池工厂的其他线程池：</h3><ol>
+<li><p>###固定线程池### ExecutorService service1 = Executors.newFixedThreadPool(5); 该方法返回一个固定线程数量的线程池。该线程池中的线程数量始终不变。当有一个新的任务提交时，线程池中若有空闲线程，则立即执行，若没有，则新的任务会被暂存在一个任务队列（默认无界队列 int 最大数）中，待有线程空闲时，便处理在任务队列中的任务。</p>
+</li>
+<li><p>###单例线程池### ExecutorService service3 = Executors.newSingleThreadExecutor(); 该方法返回一个只有一个线程的线程池。若多余一个任务被提交到该线程池，任务会被保存在一个任务队列（默认无界队列 int 最大数）中，待线程空闲，按先入先出的顺序执行队列中的任务。</p>
+</li>
+<li><p>###缓存线程池### ExecutorService service2 = Executors.newCachedThreadPool(); 该方法返回一个可根据实际情况调整线程数量的线程池，线程池的线程数量不确定，但若有空闲线程可以复用，则会优先使用可复用的线程，所有线程均在工作，如果有新的任务提交，则会创建新的线程处理任务。所有线程在当前任务执行完毕后，将返回线程池进行复用。</p>
+</li>
+<li><p>###任务调用线程池### ExecutorService service4 = Executors.newScheduledThreadPool(2); 该方法也返回一个 ScheduledThreadPoolExecutor 对象，该线程池可以指定线程数量。</p>
+</li>
+</ol>
+<h3 id="二．手动穿件线程池"><a href="#二．手动穿件线程池" class="headerlink" title="二．手动穿件线程池"></a>二．手动穿件线程池</h3><p>手动创建线程池的案例：ThreadPoolExecuter有七个参数corePoolSize 线程池中核心线程数量<br>maximumPoolSize 最大线程数量<br>keepAliveTime 空闲时间（当线程池梳理超过核心数量时，多余的空闲时间的存活时间，即超过核心线程数量的空闲线程，在多长时间内，会被销毁）<br>unit 时间单位<br>workQueue 当核心线程工作已满，需要存储任务的队列<br>threadFactory 创建线程的工厂<br>handler 当队列满了之后的拒绝策略<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private static ThreadPoolExecutor threadPool = new ThreadPoolExecutor(5, 20, 0L,</span><br><span class="line">      TimeUnit.MILLISECONDS, new LinkedBlockingQueue&lt;&gt;(1024)</span><br><span class="line">      , new ThreadFactoryBuilder().setNameFormat(<span class="string">"My-Task-%d"</span>).build()</span><br><span class="line">      , new AbortPolicy()</span><br><span class="line">  );</span><br></pre></td></tr></table></figure></p>
+<p>线程池中的队列：<br>１．无界队列：默认大小是int类型的最大值，因此可能会带来性能问题<br>２．直接提交的队列：没有容量不会保存，需要设置很大的线程数否知容易产生拒绝策略，<br>３．有界队列：如果core满了，则存储在队列中，如果core满了且队列满了，则创建线程，直到maximumPoolSize 到了，如果队列满了且最大线程数已经到了，则执行拒绝策略。<br>４．优先级队列：按照优先级执行任务。也可以设置大小<br>拒绝策略：<br>１．AbortPolicy:直接抛出异常阻止系统工作<br>２．CallerRunsPolicy:只要线程池未关闭，该策略直接在调用的线程中直接运行这个丢弃的任务<br>３．DiscardOldestPolicy:丢弃最老的一个任务，也就是即将被执行的一个任务，并尝试再次提交当前任务<br>４．DiscardPolicy：策略默默地丢弃无法处理的任务，不予任何处理，如果允许任务丢失，我觉得这是最好的方案.</p>
+<h2 id="三．如何扩展线程池："><a href="#三．如何扩展线程池：" class="headerlink" title="三．如何扩展线程池："></a>三．如何扩展线程池：</h2><p>来看看例子：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">import java.util.concurrent.ExecutorService;</span><br><span class="line">import java.util.concurrent.LinkedBlockingQueue;</span><br><span class="line">import java.util.concurrent.ThreadPoolExecutor;</span><br><span class="line">import java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line">/**</span><br><span class="line"> * @Author: opprash</span><br><span class="line"> * @Date: 11/23/18 4:48 PM</span><br><span class="line"> * @Version 1.0</span><br><span class="line"> */</span><br><span class="line">public class ThreadPoolDemo &#123;</span><br><span class="line">    static class MyTask implements Runnable &#123;</span><br><span class="line"></span><br><span class="line">        String name;</span><br><span class="line"></span><br><span class="line">        public MyTask(String name) &#123;</span><br><span class="line">            this.name = name;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void <span class="function"><span class="title">run</span></span>() &#123;</span><br><span class="line">            System.out</span><br><span class="line">                    .println(<span class="string">"正在执行的：Thread ID:"</span> + Thread.currentThread().getId() + <span class="string">", 任务名 = "</span> + name);</span><br><span class="line">            try &#123;</span><br><span class="line">                Thread.sleep(100);</span><br><span class="line">            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        ExecutorService es = new ThreadPoolExecutor(5, 5, 0L, TimeUnit.MILLISECONDS,</span><br><span class="line">                new LinkedBlockingQueue&lt;&gt;()) &#123;</span><br><span class="line">            @Override</span><br><span class="line">            protected void beforeExecute(Thread t, Runnable r) &#123;</span><br><span class="line">                System.out.println(<span class="string">"执行任务前："</span> + ((MyTask) r).name);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            protected void afterExecute(Runnable r, Throwable t) &#123;</span><br><span class="line">                System.out.println(<span class="string">"执行完成后： "</span> + ((MyTask) r).name);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            @Override</span><br><span class="line">            protected void <span class="function"><span class="title">terminated</span></span>() &#123;</span><br><span class="line">                System.out.println(<span class="string">"线程池退出"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (int i = 0; i &lt; 5; i++) &#123;</span><br><span class="line">            MyTask myTask = new MyTask(<span class="string">"TASK-GEYM-"</span> + i);</span><br><span class="line">            es.execute(myTask);</span><br><span class="line">            Thread.sleep(10);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        es.shutdown();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>通过重写beforeExecute，afterExecute，terminated等方法，则在任务执行的相应的时机会执行这些方法，和aop原理有些类似，我们来看看执行结果：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">执行任务前：TASK-GEYM-2</span><br><span class="line">正在执行的：Thread ID:12, 任务名 = TASK-GEYM-2</span><br><span class="line">执行任务前：TASK-GEYM-3</span><br><span class="line">正在执行的：Thread ID:13, 任务名 = TASK-GEYM-3</span><br><span class="line">执行任务前：TASK-GEYM-4</span><br><span class="line">正在执行的：Thread ID:14, 任务名 = TASK-GEYM-4</span><br><span class="line">执行完成后： TASK-GEYM-0</span><br><span class="line">执行完成后： TASK-GEYM-1</span><br><span class="line">执行完成后： TASK-GEYM-2</span><br><span class="line">执行完成后： TASK-GEYM-3</span><br><span class="line">执行完成后： TASK-GEYM-4</span><br><span class="line">线程池退出</span><br></pre></td></tr></table></figure></p>
+<h2 id="4-如何设计线程池中的线程数量"><a href="#4-如何设计线程池中的线程数量" class="headerlink" title="4.如何设计线程池中的线程数量"></a>4.如何设计线程池中的线程数量</h2><p>公式还是有点复杂的，简单来说，就是如果你是CPU密集型运算，那么线程数量和CPU核心数相同就好，避免了大量无用的切换线程上下文，如果你是IO密集型的话，需要大量等待，那么线程数可以设置的多一些，比如CPU核心乘以2.</p>
+<p>至于如何获取 CPU 核心数，Java 提供了一个方法：</p>
+<p>Runtime.getRuntime().availableProcessors()；</p>
+<p>返回了CPU的核心数量。<br>Ｎ(cpu)=number of ＣＰＵ(s)<br>Ｕ(cpu)=target ＣＰＵ　utilization,0&lt;=Ｕ(cpu)&lt;=1<br>Ｗ/Ｃ=ratio of wait time compute time<br>要是处理器达到期望的使用率，线程池的最优大于等于：<br>Ｎ(threadsＮ(cpu)<em>Ｕ(cpu)</em>(1+Ｗ/Ｃ)</p>
 
       
 
@@ -437,7 +299,7 @@ ret 32
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/11/22/2/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/11/23/serviceExcuter/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -451,18 +313,9 @@ ret 32
   
 <nav id="article-nav">
   
-    <a href="/2018/11/22/3/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          What is the relationship gap?
-        
-      </div>
-    </a>
   
-  
-    <a href="/2018/11/22/1/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Virtualization monitoring process</div>
+    <a href="/2018/11/23/failfast/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java集合中的faifast机制</div>
       <i class="icon-circle-right"></i>
     </a>
   
